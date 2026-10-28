@@ -1,26 +1,143 @@
 @import "tailwindcss";
 
+/*
+  Portfolio color system — white + light green
+  Authority: docs/portfolio-design.md, docs/color-palette.md
+  v1 UI: light/white-first (no system dark flip — keep surfaces white).
+*/
+
 :root {
+  color-scheme: light;
+
+  /* Surfaces — pure white canvas */
   --background: #ffffff;
-  --foreground: #171717;
+  --background-elevated: #ffffff;
+  --background-muted: #f3faf6;
+  --background-soft: #f7fbf8;
+
+  /* Text */
+  --foreground: #122018;
+  --foreground-muted: #5a6b61;
+  --foreground-subtle: #7a8c82;
+
+  /* Borders & dividers */
+  --border: #e4efe8;
+  --border-strong: #c5d9cd;
+
+  /* Brand accent — light green */
+  --accent: #3fa36b;
+  --accent-hover: #348a5a;
+  --accent-active: #2c754c;
+  --accent-foreground: #ffffff;
+  --accent-soft: #e6f6ed;
+  --accent-soft-hover: #d4efdf;
+  --accent-ring: #6bc491;
+
+  /* Decorative glow (hero / soft highlights) */
+  --glow: color-mix(in srgb, var(--accent) 18%, transparent);
+  --glow-strong: color-mix(in srgb, var(--accent) 28%, transparent);
+
+  /* Semantic */
+  --ring: var(--accent-ring);
+  --focus-ring: var(--accent-ring);
+  --success: #3fa36b;
+  --warning: #c9a227;
+  --destructive: #c44b4b;
+
+  /* Layout */
+  --header-height: 4rem;
+  --radius-card: 1.25rem;
+  --shadow-soft: 0 1px 2px rgb(18 32 24 / 0.04),
+    0 8px 24px rgb(18 32 24 / 0.04);
+  --shadow-lift: 0 4px 6px rgb(18 32 24 / 0.03),
+    0 16px 40px rgb(63 163 107 / 0.1);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-elevated: var(--background-elevated);
+  --color-background-muted: var(--background-muted);
+  --color-background-soft: var(--background-soft);
+
   --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-subtle: var(--foreground-subtle);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-active: var(--accent-active);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-soft-hover: var(--accent-soft-hover);
+  --color-accent-ring: var(--accent-ring);
+
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+section[id] {
+  scroll-margin-top: var(--header-height);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--foreground);
+}
+
+/* Focus visibility — light green ring */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Soft ambient mesh used on hero (pure CSS, no images) */
+.hero-mesh {
+  background:
+    radial-gradient(ellipse 80% 60% at 100% -10%, var(--glow-strong), transparent 55%),
+    radial-gradient(ellipse 60% 50% at -10% 40%, var(--glow), transparent 50%),
+    radial-gradient(ellipse 50% 40% at 70% 100%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 45%),
+    var(--background);
+}
+
+.section-band {
+  background: linear-gradient(
+    180deg,
+    var(--background) 0%,
+    var(--background-soft) 50%,
+    var(--background) 100%
+  );
 }
